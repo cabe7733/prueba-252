@@ -1,0 +1,178 @@
+<mdb-navbar SideClass="navbar navbar-dark teal">
+    <mdb-navbar-brand><a class="navbar-brand" href="#">PRUEBA 525</a></mdb-navbar-brand>
+</mdb-navbar>
+
+<mdb-card class="mt-5 container">
+    <h2 class="text-default text-center mt-4 h2">
+        <strong>Contacto</strong>
+    </h2>
+    <mdb-card-body class="px-lg-5 pt-0">
+        <div class="row">
+            <div class="col-md-12 col-lg-4 mb-5 mt-5">
+                <p class="mt-5">
+                    <mdb-icon fas icon="envelope" class="mr-1 text-default"></mdb-icon>info@example.com
+                </p>
+                <p>
+                    <mdb-icon fas icon="map-marker-alt" class="mr-1 text-default"></mdb-icon> New York, NY 10012, US
+                </p>
+                <p>
+                    <mdb-icon fas icon="phone" class="mr-1 text-default"></mdb-icon> + 01 234 567 88
+                </p>
+                <p class="ml-4">
+                    + 01 234 567 88
+                </p>
+                <div class="row">
+                    <div class="col-md-12 py-1">
+                        <div class="">
+                            <a class="fb-ic">
+                                <mdb-icon fab icon="facebook" size="2x" class="text-default mr-md-2 mr-3"></mdb-icon>
+                            </a>
+                            <a class="tw-ic">
+                                <mdb-icon fab icon="twitter" size="2x" class="text-default mr-md-2 mr-3"></mdb-icon>
+                            </a>
+                            <a class="ins-ic">
+                                <mdb-icon fab icon="instagram" size="2x" class="text-default mr-md-2 mr-3"></mdb-icon>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 col-lg-8">
+                <form [formGroup]="contacForm" (ngSubmit)="oncontact()" class="text-center p-2">
+                    <div class="form-row mb-2">
+                        <div class="col">
+                            <label for="">Sexo</label>
+                            <select class="browser-default custom-select" formControlName="sexo">
+                            <option *ngFor="let item of sexos; let i=index" value="{{item.sex}}">{{item.sex}}</option>
+                          </select>
+                            <div *ngIf="sexo.invalid && (sexo.dirty || sexo.touched)">
+                                <div class="alert alert-danger" role="alert" *ngIf="sexo.errors.required">
+                                    este campo es requerido
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label for="">Fecha de nacimiento</label>
+                            <input type="date" class="form-control" placeholder="Fecha de nacimiento" formControlName="fecha" (blur)="calcularEdad($event)">
+                            <div *ngIf="fecha.invalid && (fecha.dirty || fecha.touched)">
+                                <div class="alert alert-danger" role="alert" *ngIf="fecha.errors.required">
+                                    este campo es requerido
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row mb-2">
+                        <div class="col">
+                            <input type="text" class="form-control" placeholder="Nombre" formControlName="nombre">
+                            <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)">
+                                <div class="alert alert-danger" role="alert" *ngIf="nombre.errors.required">
+                                    este campo es requerido
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control" placeholder="Apellido" formControlName="apellido">
+                            <div *ngIf="apellido.invalid && (apellido.dirty || apellido.touched)">
+                                <div class="alert alert-danger" role="alert" *ngIf="apellido.errors.required">
+                                    este campo es requerido
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <input type="email" class="form-control mb-1" placeholder="E-mail" formControlName="email">
+                    <div *ngIf="email.invalid && (email.dirty || email.touched)">
+                        <div class="alert alert-danger" role="alert" *ngIf="email.errors.required">
+                            este campo es requerido
+                        </div>
+                        <div class="alert alert-danger" role="alert" *ngIf="(email.dirty || email.touched) && email.invalid && email.errors.pattern">
+                            ingrese correctamente el email
+                        </div>
+                    </div>
+
+
+                    <input type="text" class="form-control mb-1" placeholder="Direccion" formControlName="direccion">
+                    <div *ngIf="direccion.invalid && (direccion.dirty || direccion.touched)">
+                        <div class="alert alert-danger" role="alert" *ngIf="direccion.errors.required">
+                            este campo es requerido
+                        </div>
+                    </div>
+
+                    <div class="form-row mb-2">
+                        <div class="col mt-4">
+                            <input type="text" class="form-control" placeholder="Casa / Apartamento" formControlName="casa">
+                            <div *ngIf="casa.invalid && (casa.dirty || casa.touched)">
+                                <div class="alert alert-danger" role="alert" *ngIf="casa.errors.required">
+                                    este campo es requerido
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label for="">Pais</label>
+                            <select class="browser-default custom-select" formControlName="pais" (blur)="onBlurEvent($event)">
+                              <option *ngFor="let item of paises; let i=index"  value="{{item.pais}}">{{item.pais}}</option>
+                          </select>
+                            <div *ngIf="pais.invalid && (pais.dirty || pais.touched)">
+                                <div class="alert alert-danger" role="alert" *ngIf="pais.errors.required">
+                                    este campo es requerido
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row mb-2">
+                        <ng-container *ngIf="paisco=='colombia'; else elseTemplate">
+                            <div class="col">
+                                <label for="">Departamento</label>
+                                <select class="browser-default custom-select" formControlName="departamento" (blur)="municipio($event)">
+                                <option *ngFor="let item of ciudades; let i=index"  value="{{item.id}}">{{item.departamento}}</option>
+                              </select>
+                                <div *ngIf="departamento.invalid && (departamento.dirty || departamento.touched)">
+                                    <div class="alert alert-danger" role="alert" *ngIf="departamento.errors.required">
+                                        este campo es requerido
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                        <ng-template #elseTemplate>
+
+                        </ng-template>
+                        <div class="col">
+                            <ng-container *ngIf="paisco=='colombia'; else elseTemplateCiudad">
+                                <label>Municipio</label>
+                                <select class="browser-default custom-select" formControlName="ciudad">
+                                <option *ngFor="let item of municipios; let i=index"  value="{{item}}">{{item}}</option>
+                            </select>
+                                <div *ngIf="ciudad.invalid && (ciudad.dirty || ciudad.touched)">
+                                    <div class="alert alert-danger" role="alert" *ngIf="ciudad.errors.required">
+                                        este campo es requerido
+                                    </div>
+                                </div>
+                            </ng-container>
+                            <ng-template #elseTemplateCiudad>
+                                <label>Ciudad</label>
+                                <select class="browser-default custom-select" formControlName="ciudad">
+                                <option *ngFor="let item of ciudades; let i=index"  value="{{item}}">{{item}}</option>
+                            </select>
+                                <div *ngIf="ciudad.invalid && (ciudad.dirty || ciudad.touched)">
+                                    <div class="alert alert-danger" role="alert" *ngIf="ciudad.errors.required">
+                                        este campo es requerido
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <textarea class="form-control rounded-0" rows="3" placeholder="Departamento" formControlName="departamento2"></textarea>
+                        <div *ngIf="departamento2.invalid && (departamento2.dirty || departamento2.touched)">
+                            <div class="alert alert-danger" role="alert" *ngIf="departamento2.errors.required">
+                                este campo es requerido
+                            </div>
+                        </div>
+                    </div>
+                    <button mdbBtn color="default" class="my-4 float-right" [disabled]="!contacForm.valid" type="submit">Enviar</button>
+                </form>
+            </div>
+        </div>
+    </mdb-card-body>
+</mdb-card>
